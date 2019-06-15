@@ -12,13 +12,7 @@ const { GraphQLObjectType,
 	GraphQLFloat,
 	GraphQLList,
 	GraphQLNonNull
-      } = graphql;
-
-
-
-
-
-
+} = graphql;
 
 const ActivityType = new GraphQLObjectType({
     name: "Activity",
@@ -40,14 +34,14 @@ const RootQuery = new GraphQLObjectType({
 	    type: ActivityType,
 	    args: {key:{type: GraphQLID}},
 	    resolve(parent,args){
-	    request('https://www.boredapi.com/api/activity/', function (error, response, body) {
-		return console.log(JSON.parse(body)['activity'])
-		
+		request('https://www.boredapi.com/api/activity/', function (error, response, body) {
+		    return console.log(JSON.parse(body)['activity'])
+		    
+		}
 	    }
-      }
-	    };
- })
+	};
+    })
 
-module.exports = new GraphQLSchema({
-    query: RootQuery
-});
+    module.exports = new GraphQLSchema({
+	query: RootQuery
+    });
