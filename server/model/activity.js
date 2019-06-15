@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const authorSchema = new Schema({
+const activitySchema = new Schema({
     name: String,
     age: Number,
     accessibility: Number,
@@ -12,4 +12,4 @@ const authorSchema = new Schema({
     key: String
 });
 
-module.exports = mongoose.model('Author', authorSchema);
+module.exports = mongoose.model('Activity', activitySchema);
