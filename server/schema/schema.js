@@ -24,7 +24,7 @@ function fetchResponseByURL(relativeURL) {
 }
 */
 function fetchACTIVITYByURL(relativeURL) {
-  return fetchResponseByURL(relativeURL).then(json => json.activity);
+  return fetchResponseByURL(relativeURL).then(json => json.name);
 }
 
 
