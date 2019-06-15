@@ -1,6 +1,8 @@
 const graphql = require('graphql');
-const Activity = require('../model/activity');
+//const Activity = require('../model/activity');
 const fetch = require('node-fetch');
+const request = require('request');
+
 
 const { GraphQLObjectType,
 	GraphQLString,
@@ -13,19 +15,6 @@ const { GraphQLObjectType,
       } = graphql;
 
 
-const BASE_URL = 'https://www.boredapi.com/api/';
-
-function fetchResponseByURL(relativeURL) {
-  return fetch(`${BASE_URL}${relativeURL}`).then(res => res.json());
-}
-
-/*function fetchPeople() {
-  return fetchResponseByURL('/people/').then(json => json.people);
-}
-*/
-function fetchACTIVITYByURL(relativeURL) {
-  return fetchResponseByURL(relativeURL).then(json => json.name);
-}
 
 
 
@@ -40,25 +29,24 @@ const ActivityType = new GraphQLObjectType({
 	participants: {type: GraphQLInt},
 	price: {type: GraphQLFloat},
 	link: {type: GraphQLString},
-	key: {type: GraphQLID},
-	
+	key: {type: GraphQLID}
     })
 });
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
-    fields: {
+    fields:{
 	activity:{
 	    type: ActivityType,
 	    args: {key:{type: GraphQLID}},
-	    resolve(parent, args){
-		//return Activity.findByID(args.id)
-	    fetchACTIVITYByURL(`/activity/?key=5808228`);
+	    resolve(parent,args){
+	    request('https://www.boredapi.com/api/activity/', function (error, response, body) {
+		return console.log(JSON.parse(body)['activity'])
 		
-	}
-	     }
-	} 
-});
+	    }
+      }
+	    };
+ })
 
 module.exports = new GraphQLSchema({
     query: RootQuery
