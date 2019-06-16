@@ -31,7 +31,7 @@ var ActivityType = new GraphQLObjectType({
 	participants: {type: GraphQLInt},
 	price: {type: GraphQLFloat},
 	link: {type: GraphQLString},
-        key: {type: GraphQLInt}
+  key: {type: GraphQLInt}
     })
 });
 
@@ -79,12 +79,6 @@ const RootQuery = new GraphQLObjectType({
 			f = JSON.parse(body)['link'];
 			g = JSON.parse(body)['key'];
 		});
-		console.log(a);
-		console.log(b);
-		console.log(c);
-		console.log(d);
-		console.log(e);
-		console.log(f);
 		let acc = new Activity({
 	name: a,
 	accessibility: b,
@@ -112,12 +106,6 @@ const RootQuery = new GraphQLObjectType({
 				f = JSON.parse(body)['link'];
 				g = JSON.parse(body)['key'];
 			});
-			console.log(a);
-			console.log(b);
-			console.log(c);
-			console.log(d);
-			console.log(e);
-			console.log(f);
 			let atype = new Activity({
 		name: a,
 		accessibility: b,
@@ -131,7 +119,59 @@ const RootQuery = new GraphQLObjectType({
 		},
 			},
 
+			randombyParticipants:{
+					type: ActivityType,
+					args:{participants:{type: GraphQLInt}},
+					resolve: (parent,args) => {
+			//	request('https://www.boredapi.com/api/activity?key=' + args.key)
+			request(`https://www.boredapi.com/api/activity?participants=${args.participants}`, function (error, response, body){
+					a = JSON.parse(body)['activity'];
+					b = JSON.parse(body)['accessibility'];
+					c = JSON.parse(body)['type'];
+					d = JSON.parse(body)['participants'];
+					e = JSON.parse(body)['price'];
+					f = JSON.parse(body)['link'];
+					g = JSON.parse(body)['key'];
+				});
+				let party = new Activity({
+			name: a,
+			accessibility: b,
+			atype: c,
+			participants: d,
+			price:  e,
+			link:  f,
+			key: g
+			})
+				return party.save();
+			},
+		},
 
+		randombyPrice:{
+				type: ActivityType,
+				args:{price:{type: GraphQLFloat}},
+				resolve: (parent,args) => {
+		//	request('https://www.boredapi.com/api/activity?key=' + args.key)
+		request(`https://www.boredapi.com/api/activity?price=${args.price}`, function (error, response, body){
+				a = JSON.parse(body)['activity'];
+				b = JSON.parse(body)['accessibility'];
+				c = JSON.parse(body)['type'];
+				d = JSON.parse(body)['participants'];
+				e = JSON.parse(body)['price'];
+				f = JSON.parse(body)['link'];
+				g = JSON.parse(body)['key'];
+			});
+			let price = new Activity({
+		name: a,
+		accessibility: b,
+		atype: c,
+		participants: d,
+		price:  e,
+		link:  f,
+		key: g
+		})
+			return price.save();
+		},
+		},
 
 })
 
