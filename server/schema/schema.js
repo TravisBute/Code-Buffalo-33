@@ -59,7 +59,7 @@ const RootQuery = new GraphQLObjectType({
 		console.log(f);
 		console.log(g);
 		let x = new Activity({
-	 name: a,
+	name: a,
 	accessibility: b,
 	atype: c,
 	participants: d,
