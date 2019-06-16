@@ -18,9 +18,10 @@ const { GraphQLObjectType,
       } = graphql;
 
 
-var actv,a,b,c,d,e,f,g;
 
-    
+var a,b,c,d,e,f,g;
+
+
 var ActivityType = new GraphQLObjectType({
     name: 'Activity',
     fields: () => ({
@@ -37,7 +38,7 @@ var ActivityType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields:() => ({
-	active:{
+	randombyKey:{
 	    type: ActivityType,
 	    args:{key:{type: GraphQLInt}},
 	    resolve: (parent,args) => {
@@ -50,36 +51,97 @@ const RootQuery = new GraphQLObjectType({
 	    e = JSON.parse(body)['price'];
 	    f = JSON.parse(body)['link'];
 	    g = JSON.parse(body)['key'];
-                }),
-		console.log(a);
-		console.log(b);
-		console.log(c);
-		console.log(d);
-		console.log(e);
-		console.log(f);
-		console.log(g);
-		let x = new Activity({
+		});
+		let act = new Activity({
 	name: a,
 	accessibility: b,
 	atype: c,
 	participants: d,
 	price:  e,
 	link:  f,
-        key: g      
-		})
-		return x.save();
-		
-	    }  
+  key: g
+})
+		return act.save();
+	    }
 	},
-    }),
+
+	randombyAccessibility:{
+			type: ActivityType,
+			args:{accessibility:{type: GraphQLFloat}},
+			resolve: (parent,args) => {
+	//	request('https://www.boredapi.com/api/activity?key=' + args.key)
+	request(`https://www.boredapi.com/api/activity?accessibility=${args.accessibility}`, function (error, response, body){
+			a = JSON.parse(body)['activity'];
+			b = JSON.parse(body)['accessibility'];
+			c = JSON.parse(body)['type'];
+			d = JSON.parse(body)['participants'];
+			e = JSON.parse(body)['price'];
+			f = JSON.parse(body)['link'];
+			g = JSON.parse(body)['key'];
+		});
+		console.log(a);
+		console.log(b);
+		console.log(c);
+		console.log(d);
+		console.log(e);
+		console.log(f);
+		let acc = new Activity({
+	name: a,
+	accessibility: b,
+	atype: c,
+	participants: d,
+	price:  e,
+	link:  f,
+	key: g
+})
+		return acc.save();
+},
+    },
+
+		randombyAType:{
+				type: ActivityType,
+				args:{atype:{type: GraphQLString}},
+				resolve: (parent,args) => {
+		//	request('https://www.boredapi.com/api/activity?key=' + args.key)
+		request(`https://www.boredapi.com/api/activity?type=${args.atype}`, function (error, response, body){
+				a = JSON.parse(body)['activity'];
+				b = JSON.parse(body)['accessibility'];
+				c = JSON.parse(body)['type'];
+				d = JSON.parse(body)['participants'];
+				e = JSON.parse(body)['price'];
+				f = JSON.parse(body)['link'];
+				g = JSON.parse(body)['key'];
+			});
+			console.log(a);
+			console.log(b);
+			console.log(c);
+			console.log(d);
+			console.log(e);
+			console.log(f);
+			let atype = new Activity({
+		name: a,
+		accessibility: b,
+		atype: c,
+		participants: d,
+		price:  e,
+		link:  f,
+		key: g
+		})
+			return atype.save();
+		},
+			},
+
+
+
+})
+
 });
 
 
 
 
 
-		
+
 module.exports = new GraphQLSchema({
     query:RootQuery
 });
-
