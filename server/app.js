@@ -10,12 +10,10 @@ const app = express();
 
 app.use(cors());
 
-/*mongoose.connect('mongodb+srv://Travis:Code@cluster0-xmcyn.mongodb.net/test?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://Justin:Code@cluster0-xmcyn.mongodb.net/test?retryWrites=true&w=majority');
 mongoose.connection.once('open',() => {
     console.log('connected to database');
 });
-*/
-
 
 
 
@@ -24,6 +22,9 @@ app.use('/graphql', graphqlHTTP({
     graphiql:true
 }));
 
+
+
+
 app.listen(4000, () => {
-    console.log('now listening for requests on port 69'); 
+    console.log('now listening for requests on port 4000'); 
 });
